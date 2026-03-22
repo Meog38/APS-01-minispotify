@@ -19,9 +19,11 @@ public class MusicaService {
     private Long contadorId = 1L;
 
     private final UsuarioService usuarioService;
+    private final HistoricoReproducaoService historicoService;
 
-    public MusicaService(UsuarioService usuarioService) {
+    public MusicaService(UsuarioService usuarioService, HistoricoReproducaoService historicoService) {
         this.usuarioService = usuarioService;
+        this.historicoService = historicoService;
     }
 
     public Musica criar(Musica musica) {
@@ -84,6 +86,7 @@ public class MusicaService {
         }
 
         musica.setTotalReproducoes(musica.getTotalReproducoes() + 1);
+        historicoService.registrar(usuario, musica);
 
         return musica;
     }

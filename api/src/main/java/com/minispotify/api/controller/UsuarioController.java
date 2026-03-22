@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.*;
 
+import com.minispotify.api.model.HistoricoReproducao;
 import com.minispotify.api.model.Usuario;
+import com.minispotify.api.service.HistoricoReproducaoService;
 import com.minispotify.api.service.UsuarioService;
 
 @RestController
@@ -12,9 +14,11 @@ import com.minispotify.api.service.UsuarioService;
 public class UsuarioController {
 
     private final UsuarioService service;
+    private final HistoricoReproducaoService historicoService;
 
-    public UsuarioController(UsuarioService service) {
+    public UsuarioController(UsuarioService service, HistoricoReproducaoService historicoService) {
         this.service = service;
+        this.historicoService = historicoService;
     }
 
     @PostMapping
@@ -40,5 +44,10 @@ public class UsuarioController {
     @DeleteMapping("/{id}")
     public void deletar(@PathVariable Long id) {
         service.deletar(id);
+    }
+
+    @GetMapping("/{id}/historico")
+    public List<HistoricoReproducao> historico(@PathVariable Long id) {
+        return historicoService.listarPorUsuario(id);
     }
 }
