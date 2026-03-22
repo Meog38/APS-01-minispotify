@@ -43,7 +43,7 @@ public class MusicaController {
     }
 
     @PostMapping("/{id}/reproduzir")
-    public Musica reproduzir(@PathVariable Long id) {
-        return service.reproduzir(id);
+    public Musica reproduzir(@PathVariable Long id, @RequestHeader("X-USER-ID") Long idUsuario) {
+        return service.reproduzir(id, idUsuario);
     }
 }
