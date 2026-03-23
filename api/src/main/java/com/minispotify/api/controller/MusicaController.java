@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.*;
 
+import com.minispotify.api.model.Curtida;
 import com.minispotify.api.model.Musica;
+import com.minispotify.api.service.CurtidaService;
 import com.minispotify.api.service.MusicaService;
 
 @RestController
@@ -12,9 +14,11 @@ import com.minispotify.api.service.MusicaService;
 public class MusicaController {
 
     private final MusicaService service;
+    private final CurtidaService curtidaService;
 
-    public MusicaController(MusicaService service) {
+    public MusicaController(MusicaService service, CurtidaService curtidaService) {
         this.service = service;
+        this.curtidaService = curtidaService;
     }
 
     @PostMapping
@@ -45,5 +49,10 @@ public class MusicaController {
     @PostMapping("/{id}/reproduzir")
     public Musica reproduzir(@PathVariable Long id, @RequestHeader("X-USER-ID") Long idUsuario) {
         return service.reproduzir(id, idUsuario);
+    }
+
+    @PostMapping("/{id}/curtir")
+    public Curtida curtir(@PathVariable Long id, @RequestHeader("X-USER-ID") Long idUsuario) {
+        return curtidaService.curtir(id, idUsuario);
     }
 }

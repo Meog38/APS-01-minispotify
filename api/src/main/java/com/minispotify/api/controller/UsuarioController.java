@@ -4,8 +4,10 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.*;
 
+import com.minispotify.api.model.Curtida;
 import com.minispotify.api.model.HistoricoReproducao;
 import com.minispotify.api.model.Usuario;
+import com.minispotify.api.service.CurtidaService;
 import com.minispotify.api.service.HistoricoReproducaoService;
 import com.minispotify.api.service.UsuarioService;
 
@@ -15,10 +17,12 @@ public class UsuarioController {
 
     private final UsuarioService service;
     private final HistoricoReproducaoService historicoService;
+    private final CurtidaService curtidaService;
 
-    public UsuarioController(UsuarioService service, HistoricoReproducaoService historicoService) {
+    public UsuarioController(UsuarioService service, HistoricoReproducaoService historicoService, CurtidaService curtidaService) {
         this.service = service;
         this.historicoService = historicoService;
+        this.curtidaService = curtidaService;
     }
 
     @PostMapping
@@ -49,5 +53,10 @@ public class UsuarioController {
     @GetMapping("/{id}/historico")
     public List<HistoricoReproducao> historico(@PathVariable Long id) {
         return historicoService.listarPorUsuario(id);
+    }
+
+    @GetMapping("/{id}/favoritas")
+    public List<Curtida> favoritas(@PathVariable Long id) {
+        return curtidaService.listarFavoritasPorUsuario(id);
     }
 }
