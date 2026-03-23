@@ -75,7 +75,7 @@ A grande maioria dos serviços é focada num padrão `RESTful`.
 Atualmente, toda a validação de regras de funcionamento da API (Caminho Feliz, Fluxos de Falhas/400/403/404) é validada por uma **Coleção do Postman** feita sob medida.
 
 **Para Testar:**
-1. Importe o arquivo `MiniSpotifyAPI.postman_collection.json` direto no se Postman.
+1. Importe o arquivo `MiniSpotifyAPI.postman_collection.json` direto no seu Postman.
 2. Ele agrupa os cenários e depende da criação em série, então use a aba `Run Collection` para rodar na seguinte ordem sem apagar nada no meio do caminho:
    - *1. Artistas -> 2. Albuns -> 3. Usuarios -> 4. Musicas -> 5. Playlists -> 6. Relatorios e Historico -> 7. Limpeza (Teardown).*
 
