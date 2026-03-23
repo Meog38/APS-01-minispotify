@@ -1,0 +1,380 @@
+{
+  "info": {
+    "name": "Mini Spotify API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8080",
+      "type": "string"
+    },
+    {
+      "key": "user_id",
+      "value": "1",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Artistas",
+      "item": [
+        {
+          "name": "Criar Artista",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Coldplay\",\n  \"generoMusical\": \"Pop Rock\",\n  \"paisOrigem\": \"Inglaterra\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/artistas",
+              "host": ["{{base_url}}"],
+              "path": ["artistas"]
+            }
+          }
+        },
+        {
+          "name": "Listar Artistas",
+          "request": {
+            "method": "GET",
+            "url": {"raw": "{{base_url}}/artistas", "host": ["{{base_url}}"], "path": ["artistas"]}
+          }
+        },
+        {
+          "name": "Buscar Artista",
+          "request": {
+            "method": "GET",
+            "url": {"raw": "{{base_url}}/artistas/1", "host": ["{{base_url}}"], "path": ["artistas", "1"]}
+          }
+        },
+        {
+          "name": "Atualizar Artista",
+          "request": {
+            "method": "PUT",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Coldplay Atualizado\",\n  \"generoMusical\": \"Alternativo\",\n  \"paisOrigem\": \"Reino Unido\"\n}"
+            },
+            "url": {"raw": "{{base_url}}/artistas/1", "host": ["{{base_url}}"], "path": ["artistas", "1"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Albuns",
+      "item": [
+        {
+          "name": "Criar Album",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"Parachutes\",\n  \"dataLancamento\": \"2000-07-10\",\n  \"artista\": {\n    \"id\": 1\n  }\n}"
+            },
+            "url": {"raw": "{{base_url}}/albuns", "host": ["{{base_url}}"], "path": ["albuns"]}
+          }
+        },
+        {
+          "name": "Listar Albuns",
+          "request": {
+            "method": "GET",
+            "url": {"raw": "{{base_url}}/albuns", "host": ["{{base_url}}"], "path": ["albuns"]}
+          }
+        },
+        {
+          "name": "Buscar Album",
+          "request": {
+            "method": "GET",
+            "url": {"raw": "{{base_url}}/albuns/1", "host": ["{{base_url}}"], "path": ["albuns", "1"]}
+          }
+        },
+        {
+          "name": "Atualizar Album",
+          "request": {
+            "method": "PUT",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"A Rush of Blood to the Head\",\n  \"dataLancamento\": \"2002-08-26\",\n  \"artista\": {\n    \"id\": 1\n  }\n}"
+            },
+            "url": {"raw": "{{base_url}}/albuns/1", "host": ["{{base_url}}"], "path": ["albuns", "1"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Usuarios",
+      "item": [
+        {
+          "name": "Criar Usuario",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Joao Pedro\",\n  \"email\": \"joao.pedro@email.com\",\n  \"tipoPlano\": \"PREMIUM\",\n  \"ativo\": true,\n  \"dataCriacao\": \"2026-03-22T10:00:00\"\n}"
+            },
+            "url": {"raw": "{{base_url}}/usuarios", "host": ["{{base_url}}"], "path": ["usuarios"]}
+          }
+        },
+        {
+          "name": "Listar Usuarios",
+          "request": {
+            "method": "GET",
+            "url": {"raw": "{{base_url}}/usuarios", "host": ["{{base_url}}"], "path": ["usuarios"]}
+          }
+        },
+        {
+          "name": "Buscar Usuario",
+          "request": {
+            "method": "GET",
+            "url": {"raw": "{{base_url}}/usuarios/1", "host": ["{{base_url}}"], "path": ["usuarios", "1"]}
+          }
+        },
+        {
+          "name": "Atualizar Usuario",
+          "request": {
+            "method": "PUT",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Joao Pedro da Silva\",\n  \"email\": \"joao.silva@email.com\",\n  \"tipoPlano\": \"FREE\",\n  \"ativo\": true\n}"
+            },
+            "url": {"raw": "{{base_url}}/usuarios/1", "host": ["{{base_url}}"], "path": ["usuarios", "1"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Musicas",
+      "item": [
+        {
+          "name": "Criar Musica",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"Yellow\",\n  \"duracaoSegundos\": 269,\n  \"numeroFaixa\": 5,\n  \"artista\": {\n    \"id\": 1\n  },\n  \"album\": {\n    \"id\": 1\n  }\n}"
+            },
+            "url": {"raw": "{{base_url}}/musicas", "host": ["{{base_url}}"], "path": ["musicas"]}
+          }
+        },
+        {
+          "name": "Listar Musicas",
+          "request": {
+            "method": "GET",
+            "url": {"raw": "{{base_url}}/musicas", "host": ["{{base_url}}"], "path": ["musicas"]}
+          }
+        },
+        {
+          "name": "Buscar Musica",
+          "request": {
+            "method": "GET",
+            "url": {"raw": "{{base_url}}/musicas/1", "host": ["{{base_url}}"], "path": ["musicas", "1"]}
+          }
+        },
+        {
+          "name": "Atualizar Musica",
+          "request": {
+            "method": "PUT",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"Yellow (Remastered)\",\n  \"duracaoSegundos\": 270,\n  \"numeroFaixa\": 5,\n  \"artista\": {\n    \"id\": 1\n  },\n  \"album\": {\n    \"id\": 1\n  }\n}"
+            },
+            "url": {"raw": "{{base_url}}/musicas/1", "host": ["{{base_url}}"], "path": ["musicas", "1"]}
+          }
+        },
+        {
+          "name": "Reproduzir Musica (1x)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "X-USER-ID", "value": "{{user_id}}"}
+            ],
+            "url": {"raw": "{{base_url}}/musicas/1/reproduzir", "host": ["{{base_url}}"], "path": ["musicas", "1", "reproduzir"]}
+          }
+        },
+        {
+          "name": "Reproduzir Musica (2x)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "X-USER-ID", "value": "{{user_id}}"}
+            ],
+            "url": {"raw": "{{base_url}}/musicas/1/reproduzir", "host": ["{{base_url}}"], "path": ["musicas", "1", "reproduzir"]}
+          }
+        },
+        {
+          "name": "Curtir Musica",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "X-USER-ID", "value": "{{user_id}}"}
+            ],
+            "url": {"raw": "{{base_url}}/musicas/1/curtir", "host": ["{{base_url}}"], "path": ["musicas", "1", "curtir"]}
+          }
+        },
+        {
+          "name": "Curtir Musica Novamente (Para dar Erro 400)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "X-USER-ID", "value": "{{user_id}}"}
+            ],
+            "url": {"raw": "{{base_url}}/musicas/1/curtir", "host": ["{{base_url}}"], "path": ["musicas", "1", "curtir"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "5. Playlists",
+      "item": [
+        {
+          "name": "Criar Playlist",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "X-USER-ID", "value": "{{user_id}}"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Minhas Favoritas\",\n  \"publica\": true\n}"
+            },
+            "url": {"raw": "{{base_url}}/playlists", "host": ["{{base_url}}"], "path": ["playlists"]}
+          }
+        },
+        {
+          "name": "Listar Playlists",
+          "request": {
+            "method": "GET",
+            "url": {"raw": "{{base_url}}/playlists", "host": ["{{base_url}}"], "path": ["playlists"]}
+          }
+        },
+        {
+          "name": "Buscar Playlist",
+          "request": {
+            "method": "GET",
+            "url": {"raw": "{{base_url}}/playlists/1", "host": ["{{base_url}}"], "path": ["playlists", "1"]}
+          }
+        },
+        {
+          "name": "Atualizar Playlist",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "X-USER-ID", "value": "{{user_id}}"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Minhas Favoritas 2026\",\n  \"publica\": false\n}"
+            },
+            "url": {"raw": "{{base_url}}/playlists/1", "host": ["{{base_url}}"], "path": ["playlists", "1"]}
+          }
+        },
+        {
+          "name": "Adicionar Musica a Playlist",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "X-USER-ID", "value": "{{user_id}}"}
+            ],
+            "url": {"raw": "{{base_url}}/playlists/1/musicas/1", "host": ["{{base_url}}"], "path": ["playlists", "1", "musicas", "1"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "6. Relatorios e Historico",
+      "item": [
+        {
+          "name": "Top Musicas Global",
+          "request": {
+            "method": "GET",
+            "url": {"raw": "{{base_url}}/relatorios/top-musicas", "host": ["{{base_url}}"], "path": ["relatorios", "top-musicas"]}
+          }
+        },
+        {
+          "name": "Historico do Usuario",
+          "request": {
+            "method": "GET",
+            "url": {"raw": "{{base_url}}/usuarios/{{user_id}}/historico", "host": ["{{base_url}}"], "path": ["usuarios", "{{user_id}}", "historico"]}
+          }
+        },
+        {
+          "name": "Top Musicas Por Usuario",
+          "request": {
+            "method": "GET",
+            "url": {"raw": "{{base_url}}/relatorios/usuarios/{{user_id}}/top-musicas?limit=10", "host": ["{{base_url}}"], "path": ["relatorios", "usuarios", "{{user_id}}", "top-musicas"], "query": [{"key":"limit", "value":"10"}]}
+          }
+        },
+        {
+          "name": "Ultimas Reproducoes Global",
+          "request": {
+            "method": "GET",
+            "url": {"raw": "{{base_url}}/relatorios/ultimas-reproducoes?limit=10", "host": ["{{base_url}}"], "path": ["relatorios", "ultimas-reproducoes"], "query": [{"key":"limit", "value":"10"}]}
+          }
+        },
+        {
+          "name": "Musicas Favoritas (Curtidas)",
+          "request": {
+            "method": "GET",
+            "url": {"raw": "{{base_url}}/usuarios/{{user_id}}/favoritas", "host": ["{{base_url}}"], "path": ["usuarios", "{{user_id}}", "favoritas"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "7. Limpeza (Deletes)",
+      "item": [
+        {
+          "name": "Deletar Playlist",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {"key": "X-USER-ID", "value": "{{user_id}}"}
+            ],
+            "url": {"raw": "{{base_url}}/playlists/1", "host": ["{{base_url}}"], "path": ["playlists", "1"]}
+          }
+        },
+        {
+          "name": "Deletar Musica",
+          "request": {
+            "method": "DELETE",
+            "url": {"raw": "{{base_url}}/musicas/1", "host": ["{{base_url}}"], "path": ["musicas", "1"]}
+          }
+        },
+        {
+          "name": "Deletar Album",
+          "request": {
+            "method": "DELETE",
+            "url": {"raw": "{{base_url}}/albuns/1", "host": ["{{base_url}}"], "path": ["albuns", "1"]}
+          }
+        },
+        {
+          "name": "Deletar Artista",
+          "request": {
+            "method": "DELETE",
+            "url": {"raw": "{{base_url}}/artistas/1", "host": ["{{base_url}}"], "path": ["artistas", "1"]}
+          }
+        },
+        {
+          "name": "Deletar Usuario",
+          "request": {
+            "method": "DELETE",
+            "url": {"raw": "{{base_url}}/usuarios/1", "host": ["{{base_url}}"], "path": ["usuarios", "1"]}
+          }
+        }
+      ]
+    }
+  ]
+}
