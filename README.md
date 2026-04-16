@@ -7,8 +7,9 @@ Uma API RestFul para simular o comportamento de uma plataforma de streaming de m
 ## 🚀 Tecnologias Essenciais
 
 - **Java** (JDK 17+)
-- **Spring Boot** (Web)
-- **Armazenamento em Memória** (usando estruturas de Listas locais para fácil prototipação)
+- **Spring Boot** (Web, Data JPA)
+- **Banco de Dados PostgreSQL** (Hospedado na Nuvem via Aiven)
+- **Design Pattern DTO** (Data Transfer Object) para tráfego seguro de dados
 
 ---
 
@@ -63,10 +64,12 @@ A grande maioria dos serviços é focada num padrão `RESTful`.
 
 ## 🏃 Como Rodar
 
-1. Certifique-se de que tenha a JDK compatível instalada na sua máquina.
-2. Navegue para a pasta `api`.
-3. Use sua IDE favorita (VS Code, IntelliJ, Eclipse) para rodar o arquivo `MiniSpotifyApplication.java` localizado na raiz do `src/main/java`.
-4. O Spring iniciará e estará escutando no `http://localhost:8080` (por padrão).
+1. Certifique-se de ter a JDK compatível instalada em sua máquina.
+2. Acesse a pasta `api/src/main/resources` e renomeie o arquivo `application.properties.example` para `application.properties`.
+3. Insira a URL, usuário e senha do seu Banco de Dados PostgreSQL no novo `application.properties`.
+4. Navegue para a pasta raiz `api/`.
+5. Use sua IDE (VS Code, IntelliJ, Eclipse) para rodar a classe principal `MiniSpotifyApplication.java`.
+6. O Spring Boot iniciará, sincronizará as tabelas dinamicamente no banco e estará escutando em `http://localhost:8080`.
 
 ---
 
