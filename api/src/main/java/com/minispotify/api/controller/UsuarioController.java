@@ -26,23 +26,45 @@ public class UsuarioController {
     }
 
     @PostMapping
-    public Usuario criar(@RequestBody Usuario usuario) {
-        return service.criar(usuario);
+    public com.minispotify.api.dto.UsuarioResponseDTO criar(@RequestBody com.minispotify.api.dto.UsuarioCreateDTO dto) {
+        Usuario usuario = new Usuario();
+        usuario.setNome(dto.nome());
+        usuario.setEmail(dto.email());
+        usuario.setTipoPlano(dto.tipoPlano());
+        usuario.setAtivo(true);
+        usuario.setDataCriacao(java.time.LocalDateTime.now());
+        
+        Usuario criado = service.criar(usuario);
+        return converterParaDTO(criado);
     }
 
     @GetMapping
-    public List<Usuario> listar() {
-        return service.listar();
+    public List<com.minispotify.api.dto.UsuarioResponseDTO> listar() {
+        return service.listar().stream()
+                .map(this::converterParaDTO)
+                .toList();
     }
 
     @GetMapping("/{id}")
-    public Usuario buscar(@PathVariable Long id) {
-        return service.buscarPorId(id);
+    public com.minispotify.api.dto.UsuarioResponseDTO buscar(@PathVariable Long id) {
+        return converterParaDTO(service.buscarPorId(id));
     }
 
     @PutMapping("/{id}")
-    public Usuario atualizar(@PathVariable Long id, @RequestBody Usuario usuario) {
-        return service.atualizar(id, usuario);
+    public com.minispotify.api.dto.UsuarioResponseDTO atualizar(@PathVariable Long id, @RequestBody com.minispotify.api.dto.UsuarioCreateDTO dto) {
+        Usuario usuario = new Usuario();
+        usuario.setNome(dto.nome());
+        usuario.setEmail(dto.email());
+        usuario.setTipoPlano(dto.tipoPlano());
+        usuario.setAtivo(true);
+        
+        Usuario atualizado = service.atualizar(id, usuario);
+        return converterParaDTO(atualizado);
+    }
+
+    private com.minispotify.api.dto.UsuarioResponseDTO converterParaDTO(Usuario u) {
+        if (u == null) return null;
+        return new com.minispotify.api.dto.UsuarioResponseDTO(u.getId(), u.getNome(), u.getEmail(), u.getTipoPlano(), u.getDataCriacao());
     }
 
     @DeleteMapping("/{id}")

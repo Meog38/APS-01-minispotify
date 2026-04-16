@@ -1,0 +1,7 @@
+package com.minispotify.api.repository;
+
+import com.minispotify.api.model.Artista;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ArtistaRepository extends JpaRepository<Artista, Long> {
+}

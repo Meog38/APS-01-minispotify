@@ -12,11 +12,14 @@ import com.minispotify.api.dto.TopMusicaDTO;
 import com.minispotify.api.model.Musica;
 import com.minispotify.api.model.Usuario;
 
+import com.minispotify.api.repository.MusicaRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+
 @Service
 public class MusicaService {
 
-    private List<Musica> musicas = new ArrayList<>();
-    private Long contadorId = 1L;
+    @Autowired
+    private MusicaRepository musicaRepository;
 
     private final UsuarioService usuarioService;
     private final HistoricoReproducaoService historicoService;
@@ -27,20 +30,15 @@ public class MusicaService {
     }
 
     public Musica criar(Musica musica) {
-        musica.setId(contadorId++);
-        musicas.add(musica);
-        return musica;
+        return musicaRepository.save(musica);
     }
 
     public List<Musica> listar() {
-        return musicas;
+        return musicaRepository.findAll();
     }
 
     public Musica buscarPorId(Long id) {
-        return musicas.stream()
-                .filter(m -> m.getId().equals(id))
-                .findFirst()
-                .orElse(null);
+        return musicaRepository.findById(id).orElse(null);
     }
 
     public Musica atualizar(Long id, Musica musicaAtualizada) {
@@ -57,7 +55,7 @@ public class MusicaService {
         musica.setAlbum(musicaAtualizada.getAlbum());
         musica.setArtista(musicaAtualizada.getArtista());
 
-        return musica;
+        return musicaRepository.save(musica);
     }
 
     public boolean deletar(Long id) {
@@ -68,7 +66,7 @@ public class MusicaService {
             return false;
         }
 
-        musicas.remove(musica);
+        musicaRepository.delete(musica);
         return true;
     }
 
@@ -88,11 +86,11 @@ public class MusicaService {
         musica.setTotalReproducoes(musica.getTotalReproducoes() + 1);
         historicoService.registrar(usuario, musica);
 
-        return musica;
+        return musicaRepository.save(musica);
     }
 
     public List<TopMusicaDTO> top10Musicas() {
-        return musicas.stream()
+        return musicaRepository.findAll().stream()
                 .sorted((m1, m2) -> m2.getTotalReproducoes().compareTo(m1.getTotalReproducoes()))
                 .limit(10)
                 .map(m -> new TopMusicaDTO(

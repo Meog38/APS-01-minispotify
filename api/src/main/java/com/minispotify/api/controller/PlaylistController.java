@@ -20,23 +20,50 @@ public class PlaylistController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Playlist criar(@RequestBody Playlist playlist, @RequestHeader("X-USER-ID") Long idUsuario) {
-        return service.criar(playlist, idUsuario);
+    public com.minispotify.api.dto.PlaylistResponseDTO criar(@RequestBody com.minispotify.api.dto.PlaylistCreateDTO dto, @RequestHeader("X-USER-ID") Long idUsuario) {
+        Playlist playlist = new Playlist();
+        playlist.setNome(dto.nome());
+        playlist.setPublica(dto.publica());
+        
+        Playlist criada = service.criar(playlist, idUsuario);
+        return converterParaDTO(criada);
     }
 
     @GetMapping
-    public List<Playlist> listar() {
-        return service.listar();
+    public List<com.minispotify.api.dto.PlaylistResponseDTO> listar() {
+        return service.listar().stream()
+                .map(this::converterParaDTO)
+                .toList();
     }
 
     @GetMapping("/{id}")
-    public Playlist buscar(@PathVariable Long id) {
-        return service.buscarPorId(id);
+    public com.minispotify.api.dto.PlaylistResponseDTO buscar(@PathVariable Long id) {
+        return converterParaDTO(service.buscarPorId(id));
     }
 
     @PutMapping("/{id}")
-    public Playlist atualizar(@PathVariable Long id, @RequestBody Playlist playlist, @RequestHeader("X-USER-ID") Long idUsuario) {
-        return service.atualizar(id, playlist, idUsuario);
+    public com.minispotify.api.dto.PlaylistResponseDTO atualizar(@PathVariable Long id, @RequestBody com.minispotify.api.dto.PlaylistCreateDTO dto, @RequestHeader("X-USER-ID") Long idUsuario) {
+        Playlist playlist = new Playlist();
+        playlist.setNome(dto.nome());
+        playlist.setPublica(dto.publica());
+        
+        Playlist atualizada = service.atualizar(id, playlist, idUsuario);
+        return converterParaDTO(atualizada);
+    }
+
+    private com.minispotify.api.dto.PlaylistResponseDTO converterParaDTO(Playlist p) {
+        if (p == null) return null;
+        
+        List<String> musicas = new java.util.ArrayList<>();
+        if (p.getMusicas() != null) {
+            musicas = p.getMusicas().stream().map(m -> m.getTitulo()).toList();
+        }
+        
+        String dono = p.getUsuario() != null ? p.getUsuario().getNome() : "Desconhecido";
+        
+        return new com.minispotify.api.dto.PlaylistResponseDTO(
+            p.getId(), p.getNome(), p.isPublica(), p.getDataCriacao(), dono, musicas
+        );
     }
 
     @DeleteMapping("/{id}")

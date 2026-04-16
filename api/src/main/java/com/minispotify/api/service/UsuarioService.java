@@ -7,27 +7,25 @@ import org.springframework.stereotype.Service;
 
 import com.minispotify.api.model.Usuario;
 
+import com.minispotify.api.repository.UsuarioRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+
 @Service
 public class UsuarioService {
 
-    private List<Usuario> usuarios = new ArrayList<>();
-    private Long contadorId = 1L;
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
     public Usuario criar(Usuario usuario) {
-        usuario.setId(contadorId++);
-        usuarios.add(usuario);
-        return usuario;
+        return usuarioRepository.save(usuario);
     }
 
     public List<Usuario> listar() {
-        return usuarios;
+        return usuarioRepository.findAll();
     }
 
     public Usuario buscarPorId(Long id) {
-        return usuarios.stream()
-                .filter(u -> u.getId().equals(id))
-                .findFirst()
-                .orElse(null);
+        return usuarioRepository.findById(id).orElse(null);
     }
 
     public Usuario atualizar(Long id, Usuario usuarioAtualizado) {
@@ -42,7 +40,7 @@ public class UsuarioService {
         usuario.setTipoPlano(usuarioAtualizado.getTipoPlano());
         usuario.setAtivo(usuarioAtualizado.isAtivo());
 
-        return usuario;
+        return usuarioRepository.save(usuario);
     }
 
     public boolean deletar(Long id) {
@@ -53,6 +51,7 @@ public class UsuarioService {
         }
 
         usuario.setAtivo(false);
+        usuarioRepository.save(usuario);
         return true;
     }
 }

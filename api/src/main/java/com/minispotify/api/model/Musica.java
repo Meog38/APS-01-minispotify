@@ -1,13 +1,28 @@
 package com.minispotify.api.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinColumn;
+
+@Entity
 public class Musica {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String titulo;
     private Integer duracaoSegundos;
     private Integer numeroFaixa;
 
+    @ManyToOne
+    @JoinColumn(name = "album_id")
     private Album album;
+    
+    @ManyToOne
+    @JoinColumn(name = "artista_id")
     private Artista artista;
 
     private Long totalReproducoes = 0L;

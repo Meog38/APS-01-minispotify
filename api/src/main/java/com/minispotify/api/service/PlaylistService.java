@@ -12,12 +12,15 @@ import com.minispotify.api.model.Musica;
 import com.minispotify.api.model.Playlist;
 import com.minispotify.api.model.Usuario;
 
+import com.minispotify.api.repository.PlaylistRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+
 @Service
 public class PlaylistService {
 
-    private List<Playlist> playlists = new ArrayList<>();
-    private Long contadorId = 1L;
-
+    @Autowired
+    private PlaylistRepository playlistRepository;
+    
     private final UsuarioService usuarioService;
     private final MusicaService musicaService;
 
@@ -32,22 +35,23 @@ public class PlaylistService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Usuário inválido ou inativo.");
         }
         playlist.setUsuario(usuario);
-        playlist.setId(contadorId++);
-        playlists.add(playlist);
-        return playlist;
+        return playlistRepository.save(playlist);
     }
 
     public List<Playlist> listar() {
-        return playlists.stream()
+        return playlistRepository.findAll().stream()
                 .filter(Playlist::isAtivo)
                 .collect(Collectors.toList());
     }
 
     public Playlist buscarPorId(Long id) {
-        return playlists.stream()
-                .filter(p -> p.getId().equals(id) && p.isAtivo())
-                .findFirst()
+        Playlist playlist = playlistRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Playlist não encontrada."));
+                
+        if (!playlist.isAtivo()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Playlist não encontrada ou inativa.");
+        }
+        return playlist;
     }
 
     public Playlist atualizar(Long id, Playlist playlistAtualizada, Long idUsuario) {
@@ -60,7 +64,7 @@ public class PlaylistService {
         playlist.setNome(playlistAtualizada.getNome());
         playlist.setPublica(playlistAtualizada.isPublica());
 
-        return playlist;
+        return playlistRepository.save(playlist);
     }
 
     public void deletar(Long id, Long idUsuario) {
@@ -71,6 +75,7 @@ public class PlaylistService {
         }
 
         playlist.setAtivo(false);
+        playlistRepository.save(playlist);
     }
 
     public Playlist adicionarMusica(Long playlistId, Long musicaId, Long idUsuario) {
@@ -93,6 +98,6 @@ public class PlaylistService {
         }
 
         playlist.getMusicas().add(musica);
-        return playlist;
+        return playlistRepository.save(playlist);
     }
 }
